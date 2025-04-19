@@ -1,0 +1,6 @@
+streamlit>=1.9.2
+dlib-bin
+pillow
+matplotlib
+opencv-python-headless
+imutils
