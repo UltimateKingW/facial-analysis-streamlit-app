@@ -376,9 +376,9 @@ class face_analyser:
 
             total_distance = self.distance(data["couple_1"][0], data["couple_3"][1])
 
-            third_one = round(self.distance(data["couple_1"][0], data["couple_1"][1])/total_distance, 2)
-            third_two = round(self.distance(data["couple_2"][0], data["couple_2"][1])/total_distance, 2)
-            third_three = round(self.distance(data["couple_3"][0], data["couple_3"][1])/total_distance, 2)
+            third_one = float(round(self.distance(data["couple_1"][0], data["couple_1"][1])/total_distance, 2))
+            third_two = float(round(self.distance(data["couple_2"][0], data["couple_2"][1])/total_distance, 2))
+            third_three = float(round(self.distance(data["couple_3"][0], data["couple_3"][1])/total_distance, 2))
 
             return (third_one, third_two, third_three)
 
