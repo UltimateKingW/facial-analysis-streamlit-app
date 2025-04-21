@@ -12,6 +12,8 @@ st.title("📍 Facial analysis")
 
 url = "https://www.youtube.com/@thelooksmaxxer"
 st.markdown("# [ The looksmaxxer youtube channel ](%s)" % url)
+url2 = "https://github.com/Thomcle"
+st.markdown("# This application was designed and created by [Thomcle](%s)" % url2)
 
 # Upload de l'image
 uploaded_file = st.file_uploader("📤 Upload an image", type=["jpg", "jpeg", "png"])
