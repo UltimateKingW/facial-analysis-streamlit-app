@@ -10,6 +10,9 @@ from service import face_analyser
 
 st.title("📍 Facial analysis")
 
+url = "https://www.youtube.com/@thelooksmaxxer"
+st.markdown("# [ The looksmaxxer youtube channel ](%s)" % url)
+
 # Upload de l'image
 uploaded_file = st.file_uploader("📤 Upload an image", type=["jpg", "jpeg", "png"])
 
@@ -28,20 +31,41 @@ if uploaded_file is not None:
 
     sort_order = st.radio(
         "🔢 Select the display order of results:",
-        ("Original Order", "Ascending", "Descending")
+        ("Original Order", "Ascending", "Descending"),
     )
 
+
     if sort_order == "Original Order":
-        labels = analyser.ratio_data_labels
+        labels_order = analyser.ratio_data_labels
     elif sort_order == "Ascending":
-        labels = analyser.sorted_ratio_data_labels
+        labels_order = analyser.sorted_ratio_data_labels
     elif sort_order == "Descending":
-        labels = analyser.reverse_sorted_ratio_data_labels
+        labels_order = analyser.reverse_sorted_ratio_data_labels
 
-    print(analyser.reverse_sorted_ratio_data_labels)
-    print(analyser.sorted_ratio_data_labels)
+    st.markdown("""
+    ### 📊 About Sorting by Relative Deviation
 
-    for label in labels:
+    Sorting is based on the **relative deviation**:
+
+    - A value of `0.0` means the attribute is **ideal** ✅.
+    - The **higher** the value, the more it **deviates** from the ideal.
+    - From a value of **0.2** upwards, the deviation can generally be considered a **noticeable imperfection** ⚠️.
+
+    ---
+
+    #### 🔼 Ascending Order
+    - Starts with the **lowest** relative deviation (i.e. from the **best** attribute to the **worst**).
+    - Useful to highlight what is already good.
+
+    #### 🔽 Descending Order
+    - Reverses the same logic: from **worst** to **best**.
+    - Useful to **prioritize the biggest issues** first.
+                
+
+    ---
+    """)
+
+    for label in labels_order:
 
         ratio_data = analyser.ratio_data[label]
         result = analyser.operate_data(ratio_data)
@@ -52,8 +76,9 @@ if uploaded_file is not None:
         st.markdown(f"""
         ### 📌 Result for **{label}**
 
-        - ✅ **Calculated result** : `{result}`
+        - ✅ **Calculated result** : `{ratio_data['result']}`
         - 🎯 **Ideal range** : `{ratio_data['ideal']}`
+        - 📐 **Relative deviation** : `{ratio_data['relative_deviation']}`
         """, )
 
         #st.metric(label="Result", value=f"{result:.2f}", border=True)
@@ -66,7 +91,7 @@ if uploaded_file is not None:
 
 
     if st.button("📄 Download PDF report", key="a"):
-        pdf_file = analyser.generate_pdf_report(pil_image)
+        pdf_file = analyser.generate_pdf_report(pil_image, labels_order)
         st.download_button(
             label="📥 Click to download PDF",
             data=pdf_file,
